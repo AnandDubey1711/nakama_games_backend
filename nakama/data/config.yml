@@ -1,0 +1,30 @@
+name: "nakama"
+hostname: "0.0.0.0"
+
+logger:
+  level: "INFO"
+  format: "json"
+
+database:
+  addresses:
+    - "postgres:localdb@postgres:5432/nakama?sslmode=disable"
+
+session:
+  jwt_secret: "my_secret_jwt_string"
+
+socket:
+  port: 7350
+
+api:
+  port: 7349
+
+console:
+  port: 7351
+  grpc_port: 7352
+  username: "admin"
+  password: "password"
+  signing_key: "defaultkey"
+
+runtime:
+  js:
+    entrypoint: "index.js"
