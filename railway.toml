@@ -1,5 +1,5 @@
 [build]
-builder = "docker-compose"
+builder = "dockerfile"
 
 [deploy]
 startCommand = "docker compose up"
