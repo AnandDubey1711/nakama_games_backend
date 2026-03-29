@@ -91,7 +91,7 @@ function updatePlayerScore(nk, userId, result) {
   }
   try {
     writeOne(nk, "scores", "score", userId, next, record ? record.version : undefined)
-  } catch (e) { /* ignore single score update failures */ }
+  } catch (e) {}
   return next
 }
 
@@ -321,7 +321,7 @@ function handleDraw(nk, dispatcher, matchId, state) {
 }
 
 function handleWin(nk, dispatcher, matchId, state, winner) {
-  const loserId = state.players.find((id) => id !== winner)
+  const loserId = state.players.find((id) => id !== winner);
   saveMatchResult(nk, matchId, winner, loserId)
   updatePlayerScore(nk, winner, "win")
   updatePlayerScore(nk, loserId, "loss")
@@ -385,9 +385,9 @@ function matchLoop(ctx, logger, nk, dispatcher, tick, state, messages) {
       nextState = applied
       broadcast(dispatcher, getPresences(ctx.matchId), nextState, CONSTANTS.OP.STATE)
     } else if (outcome === "win") {
-      const winner = winnerId(applied)
+      const winnerSymbol = winnerId(applied) 
+      const winner = winnerSymbol === "X" ? applied.players[0] : applied.players[1]
       const finalState = { ...applied, status: "ended", winner }
-      nextState = finalState
       handleWin(nk, dispatcher, ctx.matchId, finalState, winner)
       return null
     } else if (outcome === "draw") {
